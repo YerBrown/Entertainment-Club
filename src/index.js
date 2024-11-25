@@ -29,5 +29,7 @@ app.use(
 app.use("/", router);
 
 app.listen(process.env.PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${process.env.PORT}`);
+    console.log(
+        `Servidor escuchando en http://localhost:${process.env.APP_PORT}`
+    );
 });
