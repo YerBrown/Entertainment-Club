@@ -7,28 +7,13 @@ dotenv.config();
 
 const app = express();
 
-app.set("view engine", "pug");
-app.set("src/views", "views");
-
 app.use(express.static("src/public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(
-    session({
-        secret: process.env.SECRET,
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: false,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-        },
-    })
-);
-
 app.use("/", router);
 
-app.listen(process.env.PORT, () => {
+app.listen(3000, () => {
     console.log(
         `Servidor escuchando en http://localhost:${process.env.APP_PORT}`
     );
