@@ -25,6 +25,4 @@ const Reservation = sequelize.define("reservations", {
     },
 });
 
-Reservation.belongsTo(User, { foreignKey: "user_id" }); // Una reserva pertenece a un usuario
-
 export default Reservation;

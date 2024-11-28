@@ -38,5 +38,6 @@ const User = sequelize.define("users", {
     },
 });
 
+Reservation.belongsTo(User, { foreignKey: "user_id" });
 User.hasMany(Reservation, { foreignKey: "user_id" });
 export default User;

@@ -29,6 +29,7 @@ async function remove(id) {
         throw new errors.GAME_NOT_FOUND();
     }
     await game.destroy();
+    return game;
 }
 export default {
     getAll,

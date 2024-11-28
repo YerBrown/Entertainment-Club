@@ -9,10 +9,18 @@ const ReservationsHasInventory = sequelize.define(
         reservation_id: {
             type: DataTypes.INTEGER,
             nullable: false,
+            references: {
+                model: "reservations",
+                key: "id",
+            },
         },
         inventory_id: {
             type: DataTypes.INTEGER,
             nullable: false,
+            references: {
+                model: "inventory",
+                key: "id",
+            },
         },
     }
 );
@@ -23,6 +31,13 @@ Reservation.belongsToMany(Inventory, {
 });
 Inventory.belongsToMany(Reservation, {
     through: ReservationsHasInventory,
+    foreignKey: "inventory_id",
+});
+
+ReservationsHasInventory.belongsTo(Inventory, {
+    foreignKey: "inventory_id",
+});
+Inventory.hasMany(ReservationsHasInventory, {
     foreignKey: "inventory_id",
 });
 

@@ -1,11 +1,12 @@
 import gameController from "./gamesController.js";
+import errors from "../../helpers/errors.js";
 
 async function getAll(req, res) {
     try {
         const games = await gameController.getAll();
         res.json(games);
     } catch (error) {
-        res.status(500).send(error.message);
+        errors.handleError(res, error);
     }
 }
 
@@ -14,7 +15,7 @@ async function getById(req, res) {
         const game = await gameController.getById(req.params.id);
         res.json(game);
     } catch (error) {
-        res.status(500).send(error.message);
+        errors.handleError(res, error);
     }
 }
 
@@ -23,17 +24,17 @@ async function create(req, res) {
         const game = await gameController.create(req.body);
         res.status(201).json(game);
     } catch (error) {
-        res.status(400).send(error.message);
+        errors.handleError(res, error);
     }
 }
 
 async function update(req, res) {
     try {
-        const game = await gameController.getById(req.params.id);
-        await game.update(req.body);
+        const id = req.params.id;
+        const game = await gameController.update(id, req.params.id);
         res.json(game);
     } catch (error) {
-        res.status(500).send(error.message);
+        errors.handleError(res, error);
     }
 }
 
@@ -43,7 +44,7 @@ async function remove(req, res) {
         await game.destroy();
         res.status(204).send();
     } catch (error) {
-        res.status(500).send(error.message);
+        errors.handleError(res, error);
     }
 }
 

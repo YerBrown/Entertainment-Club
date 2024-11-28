@@ -8,7 +8,7 @@ const WeekTime = sequelize.define("week_times", {
         autoIncrement: true,
     },
     week_day: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     time: {
