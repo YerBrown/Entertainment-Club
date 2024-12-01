@@ -32,6 +32,20 @@ async function getFreeTimesByDate(req, res) {
     }
 }
 
+async function getAvailableInventoryItemsByDateTime(req, res) {
+    try {
+        const { date, week_time_id } = req.body;
+        const availableInventoryItems =
+            await reservationController.getAvailableInventoryItemsByDateTime(
+                date,
+                week_time_id
+            );
+        res.json(availableInventoryItems);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
 async function create(req, res) {
     try {
         const { user_id, room_id, week_time_id, date } = req.body;
@@ -79,6 +93,7 @@ export default {
     getAll,
     getById,
     getFreeTimesByDate,
+    getAvailableInventoryItemsByDateTime,
     create,
     update,
     remove,

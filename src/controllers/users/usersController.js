@@ -12,6 +12,20 @@ async function getById(id) {
     const user = await User.findByPk(id);
     return user;
 }
+async function getMyProfile(id) {
+    const user = await User.findByPk(id);
+    if (!user) {
+        throw new errors.USER_NOT_FOUND();
+    }
+    const myUser = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        name: user.name,
+        surnames: user.surnames,
+    };
+    return myUser;
+}
 async function getByEmail(email) {
     const user = await User.findOne({ where: { email } });
     return user;
@@ -59,6 +73,7 @@ async function remove(id) {
 export default {
     getAll,
     getById,
+    getMyProfile,
     getByEmail,
     create,
     update,

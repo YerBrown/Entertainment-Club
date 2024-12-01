@@ -6,6 +6,7 @@ import Room from "../..//models/roomModel.js";
 import WeekTime from "../..//models/weekTimeModel.js";
 import weekTimesController from "../week_times/weekTimesController.js";
 import inventoryController from "../inventory/inventoryController.js";
+import reservationsHasInventoryController from "../reservationsHasInventory/reservationsHasInventoryController.js";
 import errors from "../../helpers/errors.js";
 
 async function getAll() {
@@ -16,6 +17,7 @@ async function getById(id) {
     const reservation = await Reservation.findByPk(id);
     return reservation;
 }
+
 async function create(user_id, room_id, week_time_id, date) {
     const user = await User.findByPk(user_id);
     if (!user) {
@@ -126,15 +128,77 @@ async function getAvailableInventoryItemsByDateTime(date, week_time_id) {
         },
     });
 
-    const allInventoryItems = await inventoryController.getAll();
+    const amountOfGamesInInventory =
+        await inventoryController.getAmountOfGames();
 
-    return availableItems;
+    const allItemsReserved = [];
+    for (const reservation of reservationsInDateTime) {
+        const reservedItems =
+            await reservationsHasInventoryController.getAllInventoryItemsOfReservation(
+                reservation.id
+            );
+
+        allItemsReserved.push(...reservedItems.inventory_items);
+    }
+
+    for (const itemReserved of allItemsReserved) {
+        for (const game of amountOfGamesInInventory) {
+            if (game.game_id === itemReserved.game_id) {
+                --game.amount;
+            }
+        }
+    }
+
+    return amountOfGamesInInventory;
 }
 
+async function getAllReservationsByDateAndWeekTime(date, week_time_id) {
+    const reservations = await Reservation.findAll({
+        where: {
+            date,
+            week_time_id,
+        },
+    });
+    return reservations;
+}
+
+async function createNewReservation(
+    user_id,
+    room_id,
+    week_time_id,
+    date,
+    games
+) {
+    const newReservation = await create(user_id, room_id, week_time_id, date);
+
+    const inventoryItems = [];
+    for (const game_id of games) {
+        const availableInventoryItem =
+            await reservationsHasInventoryController.getAvailableInventoryItemByDateAndWeekTime(
+                date,
+                week_time_id,
+                game_id
+            );
+        if (availableInventoryItem) {
+            inventoryItems.push(availableInventoryItem);
+        }
+    }
+
+    for (const inventoryItem of inventoryItems) {
+        await reservationsHasInventoryController.addInventoryItemToReservation(
+            newReservation.id,
+            inventoryItem.id
+        );
+    }
+
+    return newReservation;
+}
 export default {
     getAll,
     getById,
     getFreeTimesByDate,
+    getAvailableInventoryItemsByDateTime,
+    getAllReservationsByDateAndWeekTime,
     create,
     update,
     remove,

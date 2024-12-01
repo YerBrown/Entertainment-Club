@@ -40,9 +40,8 @@ async function update(req, res) {
 
 async function remove(req, res) {
     try {
-        const game = await gameController.getById(req.params.id);
-        await game.destroy();
-        res.status(204).send();
+        const game = await gameController.remove(req.params.id);
+        res.json(game);
     } catch (error) {
         errors.handleError(res, error);
     }

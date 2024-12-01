@@ -2,7 +2,14 @@ import usersController from "../users/usersController.js";
 import { verifyPassword } from "../../config/bcrypt.js";
 import error from "../../helpers/errors.js";
 
-async function register(username, email, password, passwordConfirm) {
+async function register(
+    username,
+    email,
+    password,
+    passwordConfirm,
+    name,
+    surnames
+) {
     if (password != passwordConfirm) {
         throw new error.PASSWORD_NOT_MATCH();
     }
@@ -10,7 +17,13 @@ async function register(username, email, password, passwordConfirm) {
     if (oldUser) {
         throw new error.EMAIL_ALREADY_EXISTS();
     }
-    const newUser = await usersController.create(username, email, password);
+    const newUser = await usersController.create(
+        username,
+        email,
+        password,
+        name,
+        surnames
+    );
     return newUser;
 }
 

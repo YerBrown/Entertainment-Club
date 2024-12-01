@@ -1,5 +1,6 @@
 import usersController from "./usersController.js";
 import errors from "../../helpers/errors.js";
+import jwt from "../../config/jwt.js";
 
 async function getAll(req, res) {
     try {
@@ -13,6 +14,17 @@ async function getAll(req, res) {
 async function getById(req, res) {
     try {
         const user = await usersController.getById(req.params.id);
+        res.json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
+async function getMyProfile(req, res) {
+    try {
+        const tokenPayload = jwt.getTokenPayload(req);
+        const my_id = tokenPayload.user_id;
+        const user = await usersController.getMyProfile(my_id);
         res.json(user);
     } catch (error) {
         errors.handleError(res, error);
@@ -67,6 +79,7 @@ async function remove(req, res) {
 export default {
     getAll,
     getById,
+    getMyProfile,
     create,
     update,
     remove,

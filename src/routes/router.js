@@ -1,4 +1,5 @@
 import { Router } from "express";
+import authRouter from "./authRouter.js";
 import gamesRouter from "./gamesRouter.js";
 import inventoryRouter from "./inventoryRouter.js";
 import roomsRouter from "./roomsRouter.js";
@@ -11,6 +12,8 @@ const router = Router();
 router.get("/", (req, res) => {
     res.send("API Connected");
 });
+
+router.use("/", authRouter);
 
 router.use("/games", gamesRouter);
 router.use("/inventory", inventoryRouter);

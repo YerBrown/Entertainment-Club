@@ -15,18 +15,19 @@ TRUNCATE TABLE reservations_has_inventory;
 SET FOREIGN_KEY_CHECKS = 1;
 
 
-INSERT INTO users (username, name, surnames, email, password, create_time)
+INSERT INTO users (username, name, surnames, email, password, create_time, role)
 VALUES
-('iker89', 'Iker', 'García Aranburu', 'iker89@example.com', '1234', '2024-08-15 10:30:25'),
-('anne.tx', 'Anne', 'Etxeberria Garmendia', 'anne.tx@example.com', '1234', '2024-09-03 15:45:10'),
-('jon.andoni', 'Jon', 'Andoni Lasa', 'jon.andoni@example.com', '1234', '2024-10-02 18:12:34'),
-('maite.gtz', 'Maite', 'Gutiérrez Olano', 'maite.gtz@example.com', '1234', '2024-09-17 09:50:42'),
-('ander92', 'Ander', 'Aguirre Zubizarreta', 'ander92@example.com', '1234', '2024-11-01 14:20:11'),
-('nerea.sr', 'Nerea', 'Sarasola Lertxundi', 'nerea.sr@example.com', '1234', '2024-10-25 13:55:00'),
-('mikel.ab', 'Mikel', 'Abaroa Mendizabal', 'mikel.ab@example.com', '1234', '2024-08-29 20:40:55'),
-('aiala.bq', 'Aiala', 'Barrenechea Quiroga', 'aiala.bq@example.com', '1234', '2024-09-12 16:18:47'),
-('ugaitz.tx', 'Ugaitz', 'Txurruka Aizpurua', 'ugaitz.tx@example.com', '1234', '2024-08-23 08:33:19'),
-('leire.ez', 'Leire', 'Eizagirre Arregi', 'leire.ez@example.com', '1234', '2024-10-05 17:42:09');
+('iker89', 'Iker', 'García Aranburu', 'iker89@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-08-15 10:30:25', 'client'),
+('anne.tx', 'Anne', 'Etxeberria Garmendia', 'anne.tx@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-09-03 15:45:10', 'client'),
+('jon.andoni', 'Jon', 'Andoni Lasa', 'jon.andoni@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-10-02 18:12:34', 'client'),
+('maite.gtz', 'Maite', 'Gutiérrez Olano', 'maite.gtz@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-09-17 09:50:42', 'client'),
+('ander92', 'Ander', 'Aguirre Zubizarreta', 'ander92@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-11-01 14:20:11', 'client'),
+('nerea.sr', 'Nerea', 'Sarasola Lertxundi', 'nerea.sr@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-10-25 13:55:00', 'client'),
+('mikel.ab', 'Mikel', 'Abaroa Mendizabal', 'mikel.ab@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-08-29 20:40:55', 'client'),
+('aiala.bq', 'Aiala', 'Barrenechea Quiroga', 'aiala.bq@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-09-12 16:18:47', 'client'),
+('ugaitz.tx', 'Ugaitz', 'Txurruka Aizpurua', 'ugaitz.tx@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-08-23 08:33:19', 'client'),
+('yerbrown98', 'Yeray', 'Moreno Garcia', 'yerbrown98@gmail.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-11-29 10:24:19', 'admin'),
+('leire.ez', 'Leire', 'Eizagirre Arregi', 'leire.ez@example.com', '$2a$10$Qfu45Y59xacwKq9GbXwjrev/KKth4D6mnO13bUe91BBgUu4Pv3OSG', '2024-10-05 17:42:09', 'client');
 
 
 INSERT INTO games (name, min_players, max_players, description)

@@ -17,6 +17,17 @@ async function getAmountOfGames(req, res) {
         errors.handleError(res, error);
     }
 }
+
+async function getInventoryItemsOfGameId(req, res) {
+    try {
+        const game_id = parseInt(req.params.game_id);
+        const inventoryItems =
+            await inventoryController.getInventoryItemsOfGameId(game_id);
+        res.json(inventoryItems);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
 async function getById(req, res) {
     try {
         const inventory = await inventoryController.getById(req.params.id);
@@ -56,6 +67,7 @@ async function remove(req, res) {
 export default {
     getAll,
     getAmountOfGames,
+    getInventoryItemsOfGameId,
     getById,
     create,
     update,

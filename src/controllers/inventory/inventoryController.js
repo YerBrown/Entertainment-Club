@@ -27,6 +27,7 @@ async function getAmountOfGames() {
     const gameAmounts = inventories.map((inventory) => ({
         game_id: inventory.game_id,
         game_name: inventory.game.name,
+        game_description: inventory.game.description,
         amount: inventory.get("count"),
     }));
     return gameAmounts;
@@ -50,6 +51,27 @@ async function getById(id) {
         game_description: inventory.game.description,
     };
     return inventoryData;
+}
+async function getInventoryItemsOfGameId(game_id) {
+    const inventoryItems = await Inventory.findAll({
+        where: { game_id },
+        attributes: ["id"],
+        include: {
+            model: Game,
+        },
+    });
+
+    if (!inventoryItems || inventoryItems.length === 0) {
+        throw new errors.NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND();
+    }
+
+    const inventoryItemsData = inventoryItems.map((inventory) => ({
+        inventory_id: inventory.id,
+        game_id: inventory.game.id,
+        game_name: inventory.game.name,
+        game_description: inventory.game.description,
+    }));
+    return inventoryItemsData;
 }
 async function create(game_id) {
     const inventory = await Inventory.create({ game_id });
@@ -75,6 +97,7 @@ async function remove(id) {
 export default {
     getAll,
     getAmountOfGames,
+    getInventoryItemsOfGameId,
     getById,
     create,
     update,

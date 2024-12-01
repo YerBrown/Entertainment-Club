@@ -36,6 +36,12 @@ const User = sequelize.define("users", {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user",
+        enum: ["user", "admin"],
+    },
 });
 
 Reservation.belongsTo(User, { foreignKey: "user_id" });
