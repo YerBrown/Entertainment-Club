@@ -80,10 +80,6 @@ async function getAvailableInventoryItemByDateAndWeekTime(
 
         reservedItemsAtThatDateAndTime.push(...reservedItems.inventory_items);
     }
-    console.log(
-        "Reserved Items At That Date And Time",
-        reservedItemsAtThatDateAndTime
-    );
     let availableItem = null;
     for (const inventoryItem of allInventoryItemsOfGame) {
         const reservedItemFound = reservedItemsAtThatDateAndTime.find(
@@ -91,8 +87,6 @@ async function getAvailableInventoryItemByDateAndWeekTime(
                 return reservedItem.inventory_id == inventoryItem.inventory_id;
             }
         );
-
-        console.log("Reserved Item Found", reservedItemFound);
         if (!reservedItemFound) {
             availableItem = inventoryItem;
             break;

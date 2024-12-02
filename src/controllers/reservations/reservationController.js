@@ -17,7 +17,38 @@ async function getById(id) {
     const reservation = await Reservation.findByPk(id);
     return reservation;
 }
+async function getByUserId(user_id) {
+    const reservations = await Reservation.findAll({
+        where: {
+            user_id,
+        },
+    });
+    return reservations;
+}
+async function getFullInformationById(id, user_id, role) {
+    const reservation = await getById(id);
+    if (role == "client" && reservation.user_id !== user_id) {
+        throw new Error("not allowed");
+    }
+    const inventoryItems =
+        await reservationsHasInventoryController.getAllInventoryItemsOfReservation(
+            id
+        );
+    const weekTime = await weekTimesController.getById(
+        reservation.week_time_id
+    );
 
+    const fullReservation = {
+        id: reservation.id,
+        user_id: reservation.user_id,
+        room_id: reservation.room_id,
+        week_time_id: reservation.week_time_id,
+        date: reservation.date,
+        time: weekTime.time,
+        inventory_items: inventoryItems.inventory_items,
+    };
+    return fullReservation;
+}
 async function create(user_id, room_id, week_time_id, date) {
     const user = await User.findByPk(user_id);
     if (!user) {
@@ -33,7 +64,16 @@ async function create(user_id, room_id, week_time_id, date) {
     if (!weekTime) {
         throw new errors.WEEK_TIME_NOT_FOUND();
     }
-
+    const sameDateTime = await Reservation.findOne({
+        where: {
+            week_time_id,
+            date,
+            room_id,
+        },
+    });
+    if (sameDateTime) {
+        throw new errors.ALREADY_RESERVED();
+    }
     const reservation = await Reservation.create({
         user_id,
         room_id,
@@ -177,28 +217,41 @@ async function createNewReservation(
             await reservationsHasInventoryController.getAvailableInventoryItemByDateAndWeekTime(
                 date,
                 week_time_id,
-                game_id
+                parseInt(game_id)
             );
         if (availableInventoryItem) {
             inventoryItems.push(availableInventoryItem);
         }
     }
-
     for (const inventoryItem of inventoryItems) {
         await reservationsHasInventoryController.addInventoryItemToReservation(
             newReservation.id,
-            inventoryItem.id
+            inventoryItem.game_id
         );
     }
-
-    return newReservation;
+    const weekTime = await weekTimesController.getById(
+        newReservation.week_time_id
+    );
+    const fullReservation = {
+        id: newReservation.id,
+        user_id: newReservation.user_id,
+        room_id: newReservation.room_id,
+        week_time_id: newReservation.week_time_id,
+        date: newReservation.date,
+        time: weekTime.time,
+        inventory_items: inventoryItems,
+    };
+    return fullReservation;
 }
 export default {
     getAll,
     getById,
+    getByUserId,
+    getFullInformationById,
     getFreeTimesByDate,
     getAvailableInventoryItemsByDateTime,
     getAllReservationsByDateAndWeekTime,
+    createNewReservation,
     create,
     update,
     remove,

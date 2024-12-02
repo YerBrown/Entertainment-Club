@@ -64,6 +64,14 @@ class RESERVATION_NOT_FOUND extends Error {
         this.status = 404;
     }
 }
+class ALREADY_RESERVED extends Error {
+    constructor() {
+        super(
+            "Ya hay una reserva ese mismo dia y a la misma hora en la sala seleccionada"
+        );
+        this.status = 400;
+    }
+}
 
 class USER_NOT_FOUND extends Error {
     constructor() {
@@ -103,6 +111,7 @@ export default {
     WEEK_TIME_NOT_FOUND,
     RESERVATIONS_HAS_INVENTORY_NOT_FOUND,
     RESERVATION_NOT_FOUND,
+    ALREADY_RESERVED,
     USER_NOT_FOUND,
     PASSWORD_NOT_MATCH,
     EMAIL_ALREADY_EXISTS,
