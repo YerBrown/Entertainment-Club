@@ -1,5 +1,6 @@
 import roomsController from "./roomsController.js";
 import errors from "../../helpers/errors.js";
+
 async function getAll(req, res) {
     try {
         const rooms = await roomsController.getAll();

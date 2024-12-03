@@ -65,6 +65,32 @@ async function update(req, res) {
         errors.handleError(res, error);
     }
 }
+/**
+ * Obtener los datos de mi usuario
+ * @async
+ * @function updateMyProfile
+ * @memberof module:UsersController
+ * @param {Request} req - request de http, que contiene en el body, los datos de username, email, password, name y surnames  con los que se actualiza el usuario.
+ * @param {Response} res - response de http
+ * @returns {object} - Objeto con los datos de mi usuario actualizado
+ */
+async function updateMyProfile(req, res) {
+    try {
+        const tokenPayload = jwt.getTokenPayload(req);
+        const { username, email, password, name, surnames } = req.body;
+        const user = await usersController.update(
+            tokenPayload.user_id,
+            username,
+            email,
+            password,
+            name,
+            surnames
+        );
+        res.json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
 
 async function remove(req, res) {
     try {
@@ -82,5 +108,6 @@ export default {
     getMyProfile,
     create,
     update,
+    updateMyProfile,
     remove,
 };

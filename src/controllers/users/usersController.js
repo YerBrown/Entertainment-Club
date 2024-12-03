@@ -3,7 +3,12 @@ import { Op } from "sequelize";
 import User from "../..//models/userModel.js";
 import errors from "../../helpers/errors.js";
 import { hashPassword } from "../../config/bcrypt.js";
-
+import jwt from "../../config/jwt.js";
+/**
+ * Controlador para gestionar los usuarios
+ *
+ * @module UsersController
+ */
 async function getAll() {
     const users = await User.findAll();
     return users;
@@ -12,6 +17,14 @@ async function getById(id) {
     const user = await User.findByPk(id);
     return user;
 }
+/**
+ * Obtener los datos de mi usuario
+ * @async
+ * @function getMyProfile
+ * @memberof module:UsersController
+ * @param {number} id - id de mi usuario
+ * @returns {object} - Objeto con los datos de mi usuario
+ */
 async function getMyProfile(id) {
     const user = await User.findByPk(id);
     if (!user) {
@@ -60,7 +73,6 @@ async function update(id, username, email, password, name, surnames) {
     });
     return user;
 }
-
 async function remove(id) {
     const user = await User.findByPk(id);
     if (!user) {

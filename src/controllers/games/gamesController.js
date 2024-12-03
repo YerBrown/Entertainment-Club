@@ -1,10 +1,19 @@
-import sequelize from "../../config/sequelize.js";
-import { Op } from "sequelize";
+/**
+ * Controlador para gestionar los juegos.
+ * Este controlador incluye funciones para realizar operaciones CRUD (crear, leer, actualizar, eliminar) sobre los juegos.
+ *
+ * @module GamesController
+ */
+
 import Game from "../../models/gameModel.js";
 import errors from "../../helpers/errors.js";
 
 /**
  * Devuelve todos los juegos
+ *
+ * @async
+ * @function getAll
+ * @memberof module:GamesController
  * @returns {object[]} - Array de objetos con los juegos
  */
 async function getAll() {
@@ -13,6 +22,9 @@ async function getAll() {
 }
 /**
  * Devuelve un juego por id
+ * @async
+ * @function getById
+ * @memberof module:GamesController
  * @param {number} id - Id del juego
  * @returns {object} - Objeto con el juego
  * @throws {GAME_NOT_FOUND} - Si el juego no existe
@@ -35,6 +47,7 @@ async function getById(id) {
  *
  * @async
  * @function create
+ * @memberof module:GamesController
  * @param {object} gameData - Objeto con los datos del juego a crear.
  * @returns {object} - Devuelve el objeto con los datos del juego creado.
  *
@@ -58,6 +71,7 @@ async function create(gameData) {
  *
  * @async
  * @function update
+ * @memberof module:GamesController
  * @param {number} id - Id del juego a actualizar
  * @param {object} gameData - Objeto con los nuevos datos del juego
  * @returns {object} - Devuelve el objeto con los datos del juego actualizado.
@@ -86,6 +100,7 @@ async function update(id, gameData) {
  *
  * @async
  * @function remove
+ * @memberof module:GamesController
  * @param {number} id - Id del juego a eliminar
  * @returns {object} - Devuelve el objeto con los datos del juego eliminado.
  * @throws {GAME_NOT_FOUND} - Si el juego no existe

@@ -81,6 +81,7 @@ async function getAvailableInventoryItemByDateAndWeekTime(
         reservedItemsAtThatDateAndTime.push(...reservedItems.inventory_items);
     }
     let availableItem = null;
+    let notAvailableItemName = allInventoryItemsOfGame[0].game_name;
     for (const inventoryItem of allInventoryItemsOfGame) {
         const reservedItemFound = reservedItemsAtThatDateAndTime.find(
             (reservedItem) => {
@@ -92,9 +93,10 @@ async function getAvailableInventoryItemByDateAndWeekTime(
             break;
         }
     }
-    if (!availableItem) {
-        throw new errors.NO_GAMES_OF_THIS_TYPE_AVAILABLE();
-    }
+
+    // if (!availableItem) {
+    //     throw new errors.NO_GAMES_OF_THIS_TYPE_AVAILABLE(notAvailableItemName);
+    // }
     return availableItem;
 }
 

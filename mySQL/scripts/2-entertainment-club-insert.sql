@@ -95,13 +95,13 @@ VALUES
 (28), (28), (28),
 (29), (29), (29);
 
-INSERT INTO rooms (name, max_guests)
+INSERT INTO rooms (name, max_guests, price)
 VALUES
-('Sala 1', 4),
-('Sala 2', 6),
-('Sala 3', 8),
-('Sala 4', 10),
-('Sala 5', 4);
+('Sala 1', 4, 4000),
+('Sala 2', 6, 6000),
+('Sala 3', 8, 8000),
+('Sala 4', 10, 9000),
+('Sala 5', 4, 4000);
 
 INSERT INTO week_times (week_day, time)
 VALUES

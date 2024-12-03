@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/users/usersApiController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/users/usersApiController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import usersController from "./usersController.js";
+import errors from "../../helpers/errors.js";
+import jwt from "../../config/jwt.js";
+
+async function getAll(req, res) {
+    try {
+        const users = await usersController.getAll();
+        res.json(users);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
+async function getById(req, res) {
+    try {
+        const user = await usersController.getById(req.params.id);
+        res.json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
+async function getMyProfile(req, res) {
+    try {
+        const tokenPayload = jwt.getTokenPayload(req);
+        const my_id = tokenPayload.user_id;
+        const user = await usersController.getMyProfile(my_id);
+        res.json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
+async function create(req, res) {
+    try {
+        const { username, email, password, name, surnames } = req.body;
+
+        const user = await usersController.create(
+            username,
+            email,
+            password,
+            name,
+            surnames
+        );
+        res.status(201).json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
+async function update(req, res) {
+    try {
+        const id = parseInt(req.params.id);
+        const { username, email, password, name, surnames } = req.body;
+        const user = await usersController.update(
+            id,
+            username,
+            email,
+            password,
+            name,
+            surnames
+        );
+        res.json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+/**
+ * Obtener los datos de mi usuario
+ * @async
+ * @function updateMyProfile
+ * @memberof module:UsersController
+ * @param {Request} req - request de http, que contiene en el body, los datos de username, email, password, name y surnames  con los que se actualiza el usuario.
+ * @param {Response} res - response de http
+ * @returns {object} - Objeto con los datos de mi usuario actualizado
+ */
+async function updateMyProfile(req, res) {
+    try {
+        const tokenPayload = jwt.getTokenPayload(req);
+        const { username, email, password, name, surnames } = req.body;
+        const user = await usersController.update(
+            tokenPayload.user_id,
+            username,
+            email,
+            password,
+            name,
+            surnames
+        );
+        res.json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
+async function remove(req, res) {
+    try {
+        const id = parseInt(req.params.id);
+        const user = await usersController.remove(id);
+        res.json(user);
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
+export default {
+    getAll,
+    getById,
+    getMyProfile,
+    create,
+    update,
+    updateMyProfile,
+    remove,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthController.html">AuthController</a></li><li><a href="module-CustomErrors.html">CustomErrors</a></li><li><a href="module-GamesController.html">GamesController</a></li><li><a href="module-InventoryController.html">InventoryController</a></li><li><a href="module-ReservationsController.html">ReservationsController</a></li><li><a href="module-RoomsController.html">RoomsController</a></li><li><a href="module-UsersController.html">UsersController</a></li></ul><h3>Classes</h3><ul><li><a href="module-CustomErrors.ALREADY_RESERVED.html">ALREADY_RESERVED</a></li><li><a href="module-CustomErrors.EMAIL_ALREADY_EXISTS.html">EMAIL_ALREADY_EXISTS</a></li><li><a href="module-CustomErrors.GAME_NOT_FOUND.html">GAME_NOT_FOUND</a></li><li><a href="module-CustomErrors.INVALID_CREDENTIALS.html">INVALID_CREDENTIALS</a></li><li><a href="module-CustomErrors.INVENTORY_ITEM_NOT_FOUND.html">INVENTORY_ITEM_NOT_FOUND</a></li><li><a href="module-CustomErrors.NO_GAMES_OF_THIS_TYPE_AVAILABLE.html">NO_GAMES_OF_THIS_TYPE_AVAILABLE</a></li><li><a href="module-CustomErrors.NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND.html">NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND</a></li><li><a href="module-CustomErrors.PASSWORD_NOT_MATCH.html">PASSWORD_NOT_MATCH</a></li><li><a href="module-CustomErrors.RESERVATIONS_HAS_INVENTORY_NOT_FOUND.html">RESERVATIONS_HAS_INVENTORY_NOT_FOUND</a></li><li><a href="module-CustomErrors.RESERVATION_NOT_FOUND.html">RESERVATION_NOT_FOUND</a></li><li><a href="module-CustomErrors.ROOM_NOT_FOUND.html">ROOM_NOT_FOUND</a></li><li><a href="module-CustomErrors.USER_NOT_FOUND.html">USER_NOT_FOUND</a></li><li><a href="module-CustomErrors.WEEK_TIME_NOT_FOUND.html">WEEK_TIME_NOT_FOUND</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 14:06:17 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

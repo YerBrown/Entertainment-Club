@@ -3,6 +3,20 @@ import { Op } from "sequelize";
 import Room from "../..//models/roomModel.js";
 import errors from "../../helpers/errors.js";
 
+/**
+ * Controlador para gestionar las salas
+ *
+ * @module RoomsController
+ */
+/**
+ * Obtener la informacion de todas las salas
+ *
+ * @async
+ * @function getAll
+ * @memberof module:RoomsController
+ * @returns {object[]} - Lista de objetos con los datos de todas las salas
+ */
+
 async function getAll() {
     const rooms = await Room.findAll();
     return rooms;

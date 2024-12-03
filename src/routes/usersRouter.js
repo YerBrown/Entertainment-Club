@@ -9,10 +9,11 @@ import {
 const router = Router();
 router.use(isAuthenticated);
 router.get("/", isAdmin, usersApiController.getAll);
-router.get("/:id", isAdmin, usersApiController.getById);
 router.get("/my-profile", usersApiController.getMyProfile);
-router.post("/", usersApiController.create);
-router.put("/:id", isAdminOrSelfUser, usersApiController.update);
-router.delete("/:id", isAdminOrSelfUser, usersApiController.remove);
+router.get("/:id", isAdmin, usersApiController.getById);
+router.post("/", isAdmin, usersApiController.create);
+router.put("/my-profile", usersApiController.updateMyProfile);
+router.put("/:id", isAdmin, usersApiController.update);
+router.delete("/:id", isAdmin, usersApiController.remove);
 
 export default router;
