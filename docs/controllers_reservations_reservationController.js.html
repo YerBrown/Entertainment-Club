@@ -36,12 +36,11 @@ import weekTimesController from "../week_times/weekTimesController.js";
 import inventoryController from "../inventory/inventoryController.js";
 import gamesController from "../games/gamesController.js";
 import reservationsHasInventoryController from "../reservationsHasInventory/reservationsHasInventoryController.js";
-import roomsController from "../rooms/roomsController.js";
 import errors from "../../helpers/errors.js";
 /**
  * Controlador para gestionar las reservas
  *
- * @module ReservationsController
+ * @namespace ReservationsController
  */
 async function getAll() {
     const reservations = await Reservation.findAll();
@@ -63,11 +62,57 @@ async function getByUserId(user_id) {
  * Obtener todos los datos relacionados con una reserva
  * @async
  * @function getFullInformationById
- * @memberof module:ReservationsController
- * @param {number} id - id de la reserva
- * @param {number} user_id - id del usuario logeado
- * @param {string} role - rol del usuario logeado
- * @returns {object} - Devuelve todos los datos relacionados con la reserva, desde los datos del usuario que la realizo, la informacion de la sala, los datos de la fecha y hora de reserva y los juegos reservados
+ * @memberof ReservationsController
+ * @param {Number} id - id de la reserva
+ * @param {Number} user_id - id del usuario logeado
+ * @param {String} role - rol del usuario logeado
+ * @returns {Object} - Devuelve todos los datos relacionados con la reserva, desde los datos del usuario que la realizo, la informacion de la sala, los datos de la fecha y hora de reserva y los juegos reservados.
+ * @example
+ * {
+ *   "reservation_id": 1,
+ *   "user": {
+ *       "user_id": 1,
+ *       "username": "iker89",
+ *       "email": "iker89@example.com"
+ *   },
+ *   "room": {
+ *       "room_id": 3,
+ *       "room_name": "Sala 3",
+ *       "max_guests": 8,
+ *       "price": "80€"
+ *   },
+ *   "dateTime": {
+ *       "week_time_id": 10,
+ *       "date": "2024-12-17",
+ *       "time": "10:00:00"
+ *   },
+ *    "inventory_items": [
+ *        {
+ *            "inventory_id": 3,
+ *            "game_id": 1,
+ *            "game_name": "Karaoke",
+ *            "game_description": "Contamos con dos microfonos por sala para poder usar como karaoke"
+ *        },
+ *        {
+ *            "inventory_id": 14,
+ *            "game_id": 2,
+ *            "game_name": "Catan",
+ *            "game_description": "Juego de estrategia donde los jugadores colonizan una isla, construyen asentamientos y comercian recursos."
+ *        },
+ *        {
+ *            "inventory_id": 50,
+ *            "game_id": 10,
+ *            "game_name": "Codenames",
+ *            "game_description": "Juego de palabras por equipos donde se deben adivinar las palabras clave basándose en pistas dadas por un compañero."
+ *        },
+ *        {
+ *            "inventory_id": 92,
+ *            "game_id": 22,
+ *            "game_name": "Super Smash Bros. Ultimate",
+ *            "game_description": "Juego de lucha que reúne a personajes icónicos de diversas franquicias de Nintendo y otros universos, permitiendo combates de hasta ocho jugadores."
+ *        }
+ *    ]
+ * }
  */
 async function getFullInformationById(id, user_id, role) {
     const reservation = await Reservation.findByPk(id, {
@@ -190,10 +235,59 @@ async function remove(id) {
  * Obtener todos las horas disponibles de reserva y los estados de si estan ocupadas o no
  * @async
  * @function getFreeTimesByDate
- * @memberof module:ReservationsController
- * @param {number} room_id - id de la sala
- * @param {string} date - fecha seleccionada
- * @returns {object} - Devuelve una lista de objetos con las horas disponibles y su estado de ocupado o libre
+ * @memberof ReservationsController
+ * @param {Number} room_id - id de la sala
+ * @param {String} date - fecha seleccionada
+ * @returns {Object} - Devuelve una lista de objetos con las horas disponibles y su estado de ocupado o libre
+ * @throws {ROOM_NOT_FOUND} - Si no encuentra la sala
+ * @example
+ * [
+ *    {
+ *        "id": 19,
+ *        "time": "10:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 20,
+ *        "time": "11:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 21,
+ *        "time": "12:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 22,
+ *        "time": "13:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 23,
+ *        "time": "17:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 24,
+ *        "time": "18:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 25,
+ *        "time": "19:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 26,
+ *        "time": "20:00:00",
+ *        "reserved": false
+ *    },
+ *    {
+ *        "id": 27,
+ *        "time": "21:00:00",
+ *        "reserved": false
+ *    }
+ * ]
  */
 async function getFreeTimesByDate(room_id, date) {
     const room = await Room.findByPk(room_id);
@@ -237,10 +331,40 @@ async function getFreeTimesByDate(room_id, date) {
  * Obtener todos los juegos del inventario disponibles para la fecha y hora especifica
  * @async
  * @function getAvailableInventoryItemsByDateTime
- * @memberof module:ReservationsController
- * @param {string} date - fecha seleccionada
- * @param {number} week_time_id - hora seleccionada
- * @returns {object} - Devuelve una lista de objetos con los datos de los juegos en el inventario y su cantidad disponible para la fecha y hora seleccionada
+ * @memberof ReservationsController
+ * @param {String} date - fecha seleccionada
+ * @param {Number} week_time_id - hora seleccionada
+ * @returns {Object} - Devuelve una lista de objetos con los datos de los juegos en el inventario y su cantidad disponible para la fecha y hora seleccionada.
+ * @example
+ * [
+ *  {
+ *      "game_id": 1,
+ *      "game_name": "Karaoke",
+ *      "game_description": "Contamos con dos microfonos por sala para poder usar como karaoke",
+ *      "amount": 10
+ *  },
+ *  {
+ *      "game_id": 2,
+ *      "game_name": "Catan",
+ *      "game_description": "Juego de estrategia donde los jugadores colonizan una isla, construyen asentamientos y comercian recursos.",
+ *      "amount": 5
+ *  },
+ *  {
+ *      "game_id": 3,
+ *      "game_name": "Carcassonne",
+ *      "game_description": "Juego de colocación de losetas donde se construyen ciudades, caminos y campos en la región medieval de Carcassonne.",
+ *      "amount": 5
+ *  },
+ *  {
+ *      "game_id": 4,
+ *      "game_name": "Dixit",
+ *      "game_description": "Juego de cartas ilustradas donde los jugadores deben adivinar la carta que corresponde a una pista dada.",
+ *      "amount": 5
+ *  },
+ *  {
+ *      ...
+ *  }
+ * ]
  */
 async function getAvailableInventoryItemsByDateTime(date, week_time_id) {
     const reservationsInDateTime = await Reservation.findAll({
@@ -283,7 +407,58 @@ async function getAllReservationsByDateAndWeekTime(date, week_time_id) {
     });
     return reservations;
 }
-
+/**
+ * Crea una nueva reserva para el usuario logeado con los juegos seleccionados.
+ * @async
+ * @function createNewReservation
+ * @memberof ReservationsController
+ * @param {Number} user_id - Id del usuario.
+ * @param {Number} room_id - Id de la sala.
+ * @param {Number} week_time_id - Id de la hora de la semana.
+ * @param {String} date - Fecha de la reserva.
+ * @param {Number[]} games - Array con los ids de los juegos.
+ * @return {Object} - Objeto con todos los datos de la reserva nueva, con un comentario en el caso de que no se pueda añadir algun juego por falta en el inventario.
+ * @throws {USER_NOT_FOUND} - Si no encuentra el usuario
+ * @throws {ROOM_NOT_FOUND} - Si no encuentra la sala
+ * @throws {WEEK_TIME_NOT_FOUND} - Si no encuentra la hora de la semana
+ * @throws {ALREADY_RESERVED} - Si ya hay una reserva a la misma hora y el mismo dia en esa sala
+ * @example
+ * {
+ *    "comment": "",
+ *    "id": 9,
+ *    "user_id": 10,
+ *    "room_id": "2",
+ *    "week_time_id": "34",
+ *    "date": "2024-12-20T00:00:00.000Z",
+ *    "time": "19:00:00",
+ *    "inventory_items": [
+ *        {
+ *            "inventory_id": 1,
+ *            "game_id": 1,
+ *            "game_name": "Karaoke",
+ *            "game_description": "Contamos con dos microfonos por sala para poder usar como karaoke"
+ *        },
+ *        {
+ *            "inventory_id": 11,
+ *            "game_id": 2,
+ *            "game_name": "Catan",
+ *            "game_description": "Juego de estrategia donde los jugadores colonizan una isla, construyen asentamientos y comercian recursos."
+ *        },
+ *        {
+ *            "inventory_id": 16,
+ *            "game_id": 3,
+ *            "game_name": "Carcassonne",
+ *            "game_description": "Juego de colocación de losetas donde se construyen ciudades, caminos y campos en la región medieval de Carcassonne."
+ *        },
+ *        {
+ *            "inventory_id": 21,
+ *            "game_id": 4,
+ *            "game_name": "Dixit",
+ *            "game_description": "Juego de cartas ilustradas donde los jugadores deben adivinar la carta que corresponde a una pista dada."
+ *        }
+ *    ]
+ * }
+ */
 async function createNewReservation(
     user_id,
     room_id,
@@ -359,13 +534,13 @@ export default {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthController.html">AuthController</a></li><li><a href="module-CustomErrors.html">CustomErrors</a></li><li><a href="module-GamesController.html">GamesController</a></li><li><a href="module-InventoryController.html">InventoryController</a></li><li><a href="module-ReservationsController.html">ReservationsController</a></li><li><a href="module-RoomsController.html">RoomsController</a></li><li><a href="module-UsersController.html">UsersController</a></li></ul><h3>Classes</h3><ul><li><a href="module-CustomErrors.ALREADY_RESERVED.html">ALREADY_RESERVED</a></li><li><a href="module-CustomErrors.EMAIL_ALREADY_EXISTS.html">EMAIL_ALREADY_EXISTS</a></li><li><a href="module-CustomErrors.GAME_NOT_FOUND.html">GAME_NOT_FOUND</a></li><li><a href="module-CustomErrors.INVALID_CREDENTIALS.html">INVALID_CREDENTIALS</a></li><li><a href="module-CustomErrors.INVENTORY_ITEM_NOT_FOUND.html">INVENTORY_ITEM_NOT_FOUND</a></li><li><a href="module-CustomErrors.NO_GAMES_OF_THIS_TYPE_AVAILABLE.html">NO_GAMES_OF_THIS_TYPE_AVAILABLE</a></li><li><a href="module-CustomErrors.NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND.html">NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND</a></li><li><a href="module-CustomErrors.PASSWORD_NOT_MATCH.html">PASSWORD_NOT_MATCH</a></li><li><a href="module-CustomErrors.RESERVATIONS_HAS_INVENTORY_NOT_FOUND.html">RESERVATIONS_HAS_INVENTORY_NOT_FOUND</a></li><li><a href="module-CustomErrors.RESERVATION_NOT_FOUND.html">RESERVATION_NOT_FOUND</a></li><li><a href="module-CustomErrors.ROOM_NOT_FOUND.html">ROOM_NOT_FOUND</a></li><li><a href="module-CustomErrors.USER_NOT_FOUND.html">USER_NOT_FOUND</a></li><li><a href="module-CustomErrors.WEEK_TIME_NOT_FOUND.html">WEEK_TIME_NOT_FOUND</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="AuthController.html">AuthController</a></li><li><a href="CustomErrors.html">CustomErrors</a></li><li><a href="GamesController.html">GamesController</a></li><li><a href="InventoryController.html">InventoryController</a></li><li><a href="ReservationsController.html">ReservationsController</a></li><li><a href="RoomsController.html">RoomsController</a></li><li><a href="UsersController.html">UsersController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 14:06:17 GMT+0100 (Central European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 17:13:47 GMT+0100 (Central European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

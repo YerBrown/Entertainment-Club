@@ -1,11 +1,11 @@
 /**
  * Errores personalizados para la aplicación
- * @module CustomErrors
+ * @namespace CustomErrors
  */
 /**
  * Maneja los errores de la aplicación
  * @function handleError
- * @memberof module:CustomErrors
+ * @memberof CustomErrors
  * @param {Response} res - Respuesta de http
  * @param {Error} error - Error a manejar
  */
@@ -21,9 +21,8 @@ async function handleError(res, error) {
 
 /**
  * Error para cuando no se encuentra un juego
- * @extends Error
- * @class GAME_NOT_FOUND
- * @memberof module:CustomErrors
+ * @memberof CustomErrors
+ * @typedef {Error} GAME_NOT_FOUND
  */
 class GAME_NOT_FOUND extends Error {
     constructor() {
@@ -34,8 +33,8 @@ class GAME_NOT_FOUND extends Error {
 /**
  * Error para cuando no encuentra un articulo del inventario
  * @extends Error
- * @class INVENTORY_ITEM_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} INVENTORY_ITEM_NOT_FOUND
+ * @memberof CustomErrors
  */
 class INVENTORY_ITEM_NOT_FOUND extends Error {
     constructor() {
@@ -47,8 +46,8 @@ class INVENTORY_ITEM_NOT_FOUND extends Error {
 /**
  * Error para decir que no hay juegos de ese tipo disponibles
  * @extends Error
- * @class NO_GAMES_OF_THIS_TYPE_AVAILABLE
- * @memberof module:CustomErrors
+ * @typedef {Error} NO_GAMES_OF_THIS_TYPE_AVAILABLE
+ * @memberof CustomErrors
  */
 class NO_GAMES_OF_THIS_TYPE_AVAILABLE extends Error {
     constructor(game_name) {
@@ -59,8 +58,8 @@ class NO_GAMES_OF_THIS_TYPE_AVAILABLE extends Error {
 /**
  * Error para decir que no hay articulos de un tipo de juego en el inventario
  * @extends Error
- * @class NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND
+ * @memberof CustomErrors
  */
 class NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND extends Error {
     constructor() {
@@ -72,8 +71,8 @@ class NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND extends Error {
 /**
  * Error para decir que no se ha encontrado una sala
  * @extends Error
- * @class ROOM_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} ROOM_NOT_FOUND
+ * @memberof CustomErrors
  */
 class ROOM_NOT_FOUND extends Error {
     constructor() {
@@ -85,8 +84,8 @@ class ROOM_NOT_FOUND extends Error {
 /**
  * Error cuando no se encuentra el horario de la semana
  * @extends Error
- * @class WEEK_TIME_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} WEEK_TIME_NOT_FOUND
+ * @memberof CustomErrors
  */
 class WEEK_TIME_NOT_FOUND extends Error {
     constructor() {
@@ -97,8 +96,8 @@ class WEEK_TIME_NOT_FOUND extends Error {
 /**
  * Error cuando no se encuentra el objeto de la reserva
  * @extends Error
- * @class RESERVATIONS_HAS_INVENTORY_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} RESERVATIONS_HAS_INVENTORY_NOT_FOUND
+ * @memberof CustomErrors
  */
 class RESERVATIONS_HAS_INVENTORY_NOT_FOUND extends Error {
     constructor() {
@@ -110,8 +109,8 @@ class RESERVATIONS_HAS_INVENTORY_NOT_FOUND extends Error {
 /**
  * Error cuando no se encuentra la reserva
  * @extends Error
- * @class RESERVATION_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} RESERVATION_NOT_FOUND
+ * @memberof CustomErrors
  */
 class RESERVATION_NOT_FOUND extends Error {
     constructor() {
@@ -122,8 +121,8 @@ class RESERVATION_NOT_FOUND extends Error {
 /**
  * Error cuando ya hay una reserva en esa sala ese día y a esa hora
  * @extends Error
- * @class ALREADY_RESERVED
- * @memberof module:CustomErrors
+ * @typedef {Error} ALREADY_RESERVED
+ * @memberof CustomErrors
  */
 class ALREADY_RESERVED extends Error {
     constructor() {
@@ -136,8 +135,8 @@ class ALREADY_RESERVED extends Error {
 /**
  * Error cuando no se encuentra el usuario
  * @extends Error
- * @class USER_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} USER_NOT_FOUND
+ * @memberof CustomErrors
  */
 class USER_NOT_FOUND extends Error {
     constructor() {
@@ -148,8 +147,8 @@ class USER_NOT_FOUND extends Error {
 /**
  * Error cuando las contraseñas no coinciden
  * @extends Error
- * @class PASSWORD_NOT_MATCH
- * @memberof module:CustomErrors
+ * @typedef {Error} PASSWORD_NOT_MATCH
+ * @memberof CustomErrors
  */
 class PASSWORD_NOT_MATCH extends Error {
     constructor() {
@@ -160,8 +159,8 @@ class PASSWORD_NOT_MATCH extends Error {
 /**
  * Error cuando el correo electrónico ya está registrado
  * @extends Error
- * @class EMAIL_ALREADY_EXISTS
- * @memberof module:CustomErrors
+ * @typedef {Error} EMAIL_ALREADY_EXISTS
+ * @memberof CustomErrors
  */
 class EMAIL_ALREADY_EXISTS extends Error {
     constructor() {
@@ -173,8 +172,8 @@ class EMAIL_ALREADY_EXISTS extends Error {
 /**
  * Error cuando las credenciales no son válidas
  * @extends Error
- * @class INVALID_CREDENTIALS
- * @memberof module:CustomErrors
+ * @typedef {Error} INVALID_CREDENTIALS
+ * @memberof CustomErrors
  */
 class INVALID_CREDENTIALS extends Error {
     constructor() {

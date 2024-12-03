@@ -33,10 +33,27 @@ async function getByUserId(req, res) {
  * Obtener todas mis reservas
  * @async
  * @function getMyReservations
- * @memberof module:ReservationsController
+ * @memberof ReservationsController
  * @param {Request} req - reques de http
  * @param {Response} res - response de http
- * @returns {object[]} - Devuelve un array de objetos con la informacion de las reservas del usuario loageado
+ * @returns {Object[]} - Devuelve un array de objetos con la informacion de las reservas del usuario loageado
+ * @example
+ * [
+ *   {
+ *       "id": 8,
+ *       "user_id": 10,
+ *       "room_id": 5,
+ *       "week_time_id": 34,
+ *       "date": "2024-12-19"
+ *   },
+ *   {
+ *       "id": 9,
+ *       "user_id": 10,
+ *       "room_id": 2,
+ *       "week_time_id": 33,
+ *       "date": "2024-12-20"
+ *   }
+ * ]
  */
 async function getMyReservations(req, res) {
     try {

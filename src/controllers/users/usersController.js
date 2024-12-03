@@ -7,7 +7,7 @@ import jwt from "../../config/jwt.js";
 /**
  * Controlador para gestionar los usuarios
  *
- * @module UsersController
+ * @namespace UsersController
  */
 async function getAll() {
     const users = await User.findAll();
@@ -21,9 +21,18 @@ async function getById(id) {
  * Obtener los datos de mi usuario
  * @async
  * @function getMyProfile
- * @memberof module:UsersController
+ * @memberof UsersController
  * @param {number} id - id de mi usuario
  * @returns {object} - Objeto con los datos de mi usuario
+ * @throws {USER_NOT_FOUND} - Si no encuentra el usuario
+ * @example
+ * {
+ *    "id": 1,
+ *    "username": "iker89",
+ *    "email": "iker89@example.com",
+ *    "name": "Iker",
+ *    "surnames": "García Aranburu"
+ * }
  */
 async function getMyProfile(id) {
     const user = await User.findByPk(id);
@@ -55,6 +64,7 @@ async function create(username, email, password, name, surnames) {
         password: hash,
         name,
         surnames,
+        role: "client",
     });
     return newUser;
 }

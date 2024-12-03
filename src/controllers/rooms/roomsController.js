@@ -6,15 +6,48 @@ import errors from "../../helpers/errors.js";
 /**
  * Controlador para gestionar las salas
  *
- * @module RoomsController
+ * @namespace RoomsController
  */
 /**
  * Obtener la informacion de todas las salas
  *
  * @async
  * @function getAll
- * @memberof module:RoomsController
- * @returns {object[]} - Lista de objetos con los datos de todas las salas
+ * @memberof RoomsController
+ * @returns {Object[]} - Lista de objetos con los datos de todas las salas
+ * @example
+ * [
+ *    {
+ *        "price": "40€",
+ *        "id": 1,
+ *        "name": "Sala 1",
+ *        "max_guests": 4
+ *    },
+ *    {
+ *        "price": "60€",
+ *        "id": 2,
+ *        "name": "Sala 2",
+ *        "max_guests": 6
+ *    },
+ *    {
+ *        "price": "80€",
+ *        "id": 3,
+ *        "name": "Sala 3",
+ *        "max_guests": 8
+ *    },
+ *    {
+ *        "price": "90€",
+ *        "id": 4,
+ *        "name": "Sala 4",
+ *        "max_guests": 10
+ *    },
+ *    {
+ *        "price": "40€",
+ *        "id": 5,
+ *        "name": "Sala 5",
+ *        "max_guests": 4
+ *    }
+ * ]
  */
 
 async function getAll() {

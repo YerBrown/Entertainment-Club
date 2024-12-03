@@ -28,12 +28,12 @@
         <article>
             <pre class="prettyprint source linenums"><code>/**
  * Errores personalizados para la aplicación
- * @module CustomErrors
+ * @namespace CustomErrors
  */
 /**
  * Maneja los errores de la aplicación
  * @function handleError
- * @memberof module:CustomErrors
+ * @memberof CustomErrors
  * @param {Response} res - Respuesta de http
  * @param {Error} error - Error a manejar
  */
@@ -49,9 +49,8 @@ async function handleError(res, error) {
 
 /**
  * Error para cuando no se encuentra un juego
- * @extends Error
- * @class GAME_NOT_FOUND
- * @memberof module:CustomErrors
+ * @memberof CustomErrors
+ * @typedef {Error} GAME_NOT_FOUND
  */
 class GAME_NOT_FOUND extends Error {
     constructor() {
@@ -62,8 +61,8 @@ class GAME_NOT_FOUND extends Error {
 /**
  * Error para cuando no encuentra un articulo del inventario
  * @extends Error
- * @class INVENTORY_ITEM_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} INVENTORY_ITEM_NOT_FOUND
+ * @memberof CustomErrors
  */
 class INVENTORY_ITEM_NOT_FOUND extends Error {
     constructor() {
@@ -75,8 +74,8 @@ class INVENTORY_ITEM_NOT_FOUND extends Error {
 /**
  * Error para decir que no hay juegos de ese tipo disponibles
  * @extends Error
- * @class NO_GAMES_OF_THIS_TYPE_AVAILABLE
- * @memberof module:CustomErrors
+ * @typedef {Error} NO_GAMES_OF_THIS_TYPE_AVAILABLE
+ * @memberof CustomErrors
  */
 class NO_GAMES_OF_THIS_TYPE_AVAILABLE extends Error {
     constructor(game_name) {
@@ -87,8 +86,8 @@ class NO_GAMES_OF_THIS_TYPE_AVAILABLE extends Error {
 /**
  * Error para decir que no hay articulos de un tipo de juego en el inventario
  * @extends Error
- * @class NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND
+ * @memberof CustomErrors
  */
 class NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND extends Error {
     constructor() {
@@ -100,8 +99,8 @@ class NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND extends Error {
 /**
  * Error para decir que no se ha encontrado una sala
  * @extends Error
- * @class ROOM_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} ROOM_NOT_FOUND
+ * @memberof CustomErrors
  */
 class ROOM_NOT_FOUND extends Error {
     constructor() {
@@ -113,8 +112,8 @@ class ROOM_NOT_FOUND extends Error {
 /**
  * Error cuando no se encuentra el horario de la semana
  * @extends Error
- * @class WEEK_TIME_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} WEEK_TIME_NOT_FOUND
+ * @memberof CustomErrors
  */
 class WEEK_TIME_NOT_FOUND extends Error {
     constructor() {
@@ -125,8 +124,8 @@ class WEEK_TIME_NOT_FOUND extends Error {
 /**
  * Error cuando no se encuentra el objeto de la reserva
  * @extends Error
- * @class RESERVATIONS_HAS_INVENTORY_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} RESERVATIONS_HAS_INVENTORY_NOT_FOUND
+ * @memberof CustomErrors
  */
 class RESERVATIONS_HAS_INVENTORY_NOT_FOUND extends Error {
     constructor() {
@@ -138,8 +137,8 @@ class RESERVATIONS_HAS_INVENTORY_NOT_FOUND extends Error {
 /**
  * Error cuando no se encuentra la reserva
  * @extends Error
- * @class RESERVATION_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} RESERVATION_NOT_FOUND
+ * @memberof CustomErrors
  */
 class RESERVATION_NOT_FOUND extends Error {
     constructor() {
@@ -150,8 +149,8 @@ class RESERVATION_NOT_FOUND extends Error {
 /**
  * Error cuando ya hay una reserva en esa sala ese día y a esa hora
  * @extends Error
- * @class ALREADY_RESERVED
- * @memberof module:CustomErrors
+ * @typedef {Error} ALREADY_RESERVED
+ * @memberof CustomErrors
  */
 class ALREADY_RESERVED extends Error {
     constructor() {
@@ -164,8 +163,8 @@ class ALREADY_RESERVED extends Error {
 /**
  * Error cuando no se encuentra el usuario
  * @extends Error
- * @class USER_NOT_FOUND
- * @memberof module:CustomErrors
+ * @typedef {Error} USER_NOT_FOUND
+ * @memberof CustomErrors
  */
 class USER_NOT_FOUND extends Error {
     constructor() {
@@ -176,8 +175,8 @@ class USER_NOT_FOUND extends Error {
 /**
  * Error cuando las contraseñas no coinciden
  * @extends Error
- * @class PASSWORD_NOT_MATCH
- * @memberof module:CustomErrors
+ * @typedef {Error} PASSWORD_NOT_MATCH
+ * @memberof CustomErrors
  */
 class PASSWORD_NOT_MATCH extends Error {
     constructor() {
@@ -188,8 +187,8 @@ class PASSWORD_NOT_MATCH extends Error {
 /**
  * Error cuando el correo electrónico ya está registrado
  * @extends Error
- * @class EMAIL_ALREADY_EXISTS
- * @memberof module:CustomErrors
+ * @typedef {Error} EMAIL_ALREADY_EXISTS
+ * @memberof CustomErrors
  */
 class EMAIL_ALREADY_EXISTS extends Error {
     constructor() {
@@ -201,8 +200,8 @@ class EMAIL_ALREADY_EXISTS extends Error {
 /**
  * Error cuando las credenciales no son válidas
  * @extends Error
- * @class INVALID_CREDENTIALS
- * @memberof module:CustomErrors
+ * @typedef {Error} INVALID_CREDENTIALS
+ * @memberof CustomErrors
  */
 class INVALID_CREDENTIALS extends Error {
     constructor() {
@@ -237,13 +236,13 @@ export default {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AuthController.html">AuthController</a></li><li><a href="module-CustomErrors.html">CustomErrors</a></li><li><a href="module-GamesController.html">GamesController</a></li><li><a href="module-InventoryController.html">InventoryController</a></li><li><a href="module-ReservationsController.html">ReservationsController</a></li><li><a href="module-RoomsController.html">RoomsController</a></li><li><a href="module-UsersController.html">UsersController</a></li></ul><h3>Classes</h3><ul><li><a href="module-CustomErrors.ALREADY_RESERVED.html">ALREADY_RESERVED</a></li><li><a href="module-CustomErrors.EMAIL_ALREADY_EXISTS.html">EMAIL_ALREADY_EXISTS</a></li><li><a href="module-CustomErrors.GAME_NOT_FOUND.html">GAME_NOT_FOUND</a></li><li><a href="module-CustomErrors.INVALID_CREDENTIALS.html">INVALID_CREDENTIALS</a></li><li><a href="module-CustomErrors.INVENTORY_ITEM_NOT_FOUND.html">INVENTORY_ITEM_NOT_FOUND</a></li><li><a href="module-CustomErrors.NO_GAMES_OF_THIS_TYPE_AVAILABLE.html">NO_GAMES_OF_THIS_TYPE_AVAILABLE</a></li><li><a href="module-CustomErrors.NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND.html">NO_INVENTORY_ITEM_OF_THIS_GAME_FOUND</a></li><li><a href="module-CustomErrors.PASSWORD_NOT_MATCH.html">PASSWORD_NOT_MATCH</a></li><li><a href="module-CustomErrors.RESERVATIONS_HAS_INVENTORY_NOT_FOUND.html">RESERVATIONS_HAS_INVENTORY_NOT_FOUND</a></li><li><a href="module-CustomErrors.RESERVATION_NOT_FOUND.html">RESERVATION_NOT_FOUND</a></li><li><a href="module-CustomErrors.ROOM_NOT_FOUND.html">ROOM_NOT_FOUND</a></li><li><a href="module-CustomErrors.USER_NOT_FOUND.html">USER_NOT_FOUND</a></li><li><a href="module-CustomErrors.WEEK_TIME_NOT_FOUND.html">WEEK_TIME_NOT_FOUND</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="AuthController.html">AuthController</a></li><li><a href="CustomErrors.html">CustomErrors</a></li><li><a href="GamesController.html">GamesController</a></li><li><a href="InventoryController.html">InventoryController</a></li><li><a href="ReservationsController.html">ReservationsController</a></li><li><a href="RoomsController.html">RoomsController</a></li><li><a href="UsersController.html">UsersController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 14:06:17 GMT+0100 (Central European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 17:13:47 GMT+0100 (Central European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

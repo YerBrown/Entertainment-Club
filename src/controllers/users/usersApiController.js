@@ -69,10 +69,21 @@ async function update(req, res) {
  * Obtener los datos de mi usuario
  * @async
  * @function updateMyProfile
- * @memberof module:UsersController
+ * @memberof UsersController
  * @param {Request} req - request de http, que contiene en el body, los datos de username, email, password, name y surnames  con los que se actualiza el usuario.
  * @param {Response} res - response de http
  * @returns {object} - Objeto con los datos de mi usuario actualizado
+ * @example
+ * {
+ *    "id": 1,
+ *    "username": "peppiño98",
+ *    "email": "pepeDominguito@gmail.com",
+ *    "password": "$2a$10$5FuDhEQ/G.2ZQDtQgqOZUO42k7rulnDWUG4FL8fMZHJsYHdbiEeZS",
+ *    "name": "Pepe",
+ *    "surnames": "Domingo Fernadez",
+ *    "create_time": "2024-08-15T10:30:25.000Z",
+ *    "role": "client"
+ * }
  */
 async function updateMyProfile(req, res) {
     try {
