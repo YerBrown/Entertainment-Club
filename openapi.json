@@ -1,0 +1,1365 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Entertainment Club - OpenAPI 3.0",
+        "description": "La API de Entertaiment Club permite a los clientes interactuar con el sistema de reservas de forma sencilla y eficiente. Los clientes pueden explorar salas disponibles, los horarios libres, gestionar sus reservas y los juegos disponibles. Esta sección documenta las rutas específicas diseñadas para clientes, proporcionando una experiencia optimizada y segura.",
+        "contact": {
+            "email": "yeraymorenogarcia0@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://entertainment-club.yeraymorenogarcia.com"
+        }
+    ],
+    "tags": [
+        {
+            "name": "auth",
+            "description": "Autenticacion de usuarios"
+        },
+        {
+            "name": "users",
+            "description": "Manejo de datos del usuario"
+        },
+        {
+            "name": "rooms",
+            "description": "Obtencion de datos de salas"
+        },
+        {
+            "name": "inventory",
+            "description": "Obtencion de datos de articulos del knventario"
+        },
+        {
+            "name": "reservations",
+            "description": "Manejo de reservas"
+        },
+        {
+            "name": "reservations-has-inventory",
+            "description": "Manejo de articulos para las reservas"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Registrar un nuevo usuario",
+                "description": "Registra un nuevo usuario en el sistema del Entertainment Club.",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "description": "Información requerida para registrar un nuevo usuario.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "john_doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "securePassword123"
+                                    },
+                                    "confirmPassword": {
+                                        "type": "string",
+                                        "example": "securePassword123"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surnames": {
+                                        "type": "string",
+                                        "example": "Doe Smith"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "email",
+                                    "password",
+                                    "confirmPassword",
+                                    "name",
+                                    "surnames"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "create_time": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-27T14:22:35.123Z"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "john_doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "john.doe@example.com"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "hashedPassword123"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "surnames": {
+                                            "type": "string",
+                                            "example": "Doe Smith"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "client"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de confirmacion de contraseña",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Las contraseñas no coinciden"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error de correo electronico ya registrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Este correo electrónico ya está registrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Iniciar sesión",
+                "description": "Permite a un usuario iniciar sesión proporcionando su correo electrónico y contraseña. Si las credenciales son válidas, devuelve un token JWT.",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "description": "Credenciales del usuario necesarias para iniciar sesión.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "securePassword123"
+                                    }
+                                },
+                                "required": ["email", "password"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inicio de sesión exitoso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Token JWT generado para el usuario.",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTYwOTI4MjgwMCwiZXhwIjoxNjA5Mjg2NDAwfQ.S3kJY4aAa2qBRghYXSEa0yBc5QFAgf-1Aa1V5XU6bF8"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encotrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Usuario no encotrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Credenciales inválidas"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/my-profile": {
+            "get": {
+                "tags": ["users"],
+                "summary": "Obtener información del perfil",
+                "description": "Devuelve la información del usuario autenticado.",
+                "operationId": "getMyProfile",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Información del usuario autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "john_doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "john.doe@example.com"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "surnames": {
+                                            "type": "string",
+                                            "example": "Doe Smith"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado. JWT inválido o ausente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "jwt token not correct"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["users"],
+                "summary": "Actualizar información del perfil",
+                "description": "Permite al usuario autenticado actualizar su información personal.",
+                "operationId": "updateMyProfile",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Información requerida para actualizar el perfil del usuario.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "john_doe_updated"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john.doe.updated@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newSecurePassword123"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Updated"
+                                    },
+                                    "surnames": {
+                                        "type": "string",
+                                        "example": "Doe Smith Updated"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "email",
+                                    "name",
+                                    "surnames"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Información del usuario actualizada exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "create_time": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-11-27T14:22:35.123Z"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "john_doe_updated"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "john.doe.updated@example.com"
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "example": "hashedNewPassword123"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Updated"
+                                        },
+                                        "surnames": {
+                                            "type": "string",
+                                            "example": "Doe Smith Updated"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "client"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado. JWT inválido o ausente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "jwt token not correct"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rooms": {
+            "get": {
+                "tags": ["rooms"],
+                "summary": "Obtener todas las salas del club",
+                "description": "Devuelve la informacion de todas las salas del club",
+                "operationId": "getAllRooms",
+                "responses": {
+                    "200": {
+                        "description": "Listado de salas obtenido exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Sala 1"
+                                            },
+                                            "max_guests": {
+                                                "type": "integer",
+                                                "example": 4
+                                            },
+                                            "price": {
+                                                "type": "string",
+                                                "example": "40 €"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se pudieron obtener las salas. Inténtalo de nuevo más tarde."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/inventory/amount-of-games": {
+            "get": {
+                "tags": ["inventory"],
+                "summary": "Obtener la cantidad de juegos en el inventario",
+                "description": "Devuelve un listado con la cantidad de cada juego en el inventario del club.",
+                "operationId": "getAmountOfGames",
+                "responses": {
+                    "200": {
+                        "description": "Listado del inventario obtenido exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "game_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "game_name": {
+                                                "type": "string",
+                                                "example": "Catan"
+                                            },
+                                            "game_description": {
+                                                "type": "string",
+                                                "example": "Juego de estrategia para construir asentamientos."
+                                            },
+                                            "amount": {
+                                                "type": "integer",
+                                                "example": 5
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No se pudo obtener el inventario. Inténtalo de nuevo más tarde."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations/free-date": {
+            "get": {
+                "tags": ["reservations"],
+                "summary": "Obtener horarios disponibles para una sala en una fecha",
+                "description": "Devuelve un listado con los horarios disponibles o reservados para una sala específica en una fecha dada.",
+                "operationId": "getFreeDate",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "room_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        },
+                        "description": "ID de la sala para la que se quiere consultar la disponibilidad."
+                    },
+                    {
+                        "in": "query",
+                        "name": "date",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-12-01"
+                        },
+                        "description": "Fecha para consultar los horarios disponibles (formato YYYY-MM-DD)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Horarios obtenidos exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "time": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "example": "10:00:00"
+                                            },
+                                            "reserved": {
+                                                "type": "boolean",
+                                                "example": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Sala no encontrada.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Sala no encontrada"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida, parámetros faltantes o incorrectos.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "room_id y date son obligatorios"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error inesperado. Inténtalo de nuevo más tarde."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations/free_items-by-date-time": {
+            "get": {
+                "tags": ["reservations"],
+                "summary": "Obtener inventario disponible en una fecha y hora",
+                "description": "Devuelve un listado del inventario disponible para una fecha y hora específicas.",
+                "operationId": "getFreeItemsByDateTime",
+                "requestBody": {
+                    "description": "Información requerida para consultar el inventario disponible.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-12-01"
+                                    },
+                                    "week_time_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "required": ["date", "week_time_id"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inventario disponible obtenido exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "game_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "game_name": {
+                                                "type": "string",
+                                                "example": "Catan"
+                                            },
+                                            "game_description": {
+                                                "type": "string",
+                                                "example": "Juego de estrategia para construir asentamientos."
+                                            },
+                                            "available": {
+                                                "type": "boolean",
+                                                "example": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Horario semanal no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "week_time_id no encontrado"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error inesperado. Inténtalo de nuevo más tarde."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/reservations/my-reservations": {
+            "get": {
+                "tags": ["reservations"],
+                "summary": "Obtiene las reservas del usuario autenticado",
+                "description": "Devuelve una lista de reservas realizadas por el usuario autenticado.",
+                "operationId": "getMyReservations",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de reservas del usuario obtenida exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "description": "ID de la reserva",
+                                                "example": 1
+                                            },
+                                            "user_id": {
+                                                "type": "integer",
+                                                "description": "ID del usuario que hizo la reserva",
+                                                "example": 5
+                                            },
+                                            "room_id": {
+                                                "type": "integer",
+                                                "description": "ID de la sala reservada",
+                                                "example": 2
+                                            },
+                                            "time": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "description": "Hora de la reserva",
+                                                "example": "18:00:00"
+                                            },
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "Fecha de la reserva",
+                                                "example": "2024-12-01"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado - El usuario no está autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "jwt token not correct"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error inesperado. Inténtalo de nuevo más tarde."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations/{reservation_id}/full-data": {
+            "get": {
+                "tags": ["reservations"],
+                "summary": "Obtener información completa de una reserva",
+                "description": "Devuelve toda la información relacionada con una reserva específica, incluyendo usuario, sala, horario y artículos del inventario asociados.",
+                "operationId": "getFullReservationData",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "reservation_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        },
+                        "description": "ID de la reserva que se desea consultar."
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Información completa de la reserva obtenida exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reservation_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "user": {
+                                            "type": "object",
+                                            "properties": {
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "username": {
+                                                    "type": "string",
+                                                    "example": "iker89"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "iker89@example.com"
+                                                }
+                                            }
+                                        },
+                                        "room": {
+                                            "type": "object",
+                                            "properties": {
+                                                "room_id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "room_name": {
+                                                    "type": "string",
+                                                    "example": "Sala 3"
+                                                },
+                                                "max_guests": {
+                                                    "type": "integer",
+                                                    "example": 8
+                                                },
+                                                "price": {
+                                                    "type": "string",
+                                                    "example": "80€"
+                                                }
+                                            }
+                                        },
+                                        "dateTime": {
+                                            "type": "object",
+                                            "properties": {
+                                                "week_time_id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-12-17"
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "format": "time",
+                                                    "example": "10:00:00"
+                                                }
+                                            }
+                                        },
+                                        "inventory_items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "inventory_id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "game_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "game_name": {
+                                                        "type": "string",
+                                                        "example": "Karaoke"
+                                                    },
+                                                    "game_description": {
+                                                        "type": "string",
+                                                        "example": "Contamos con dos microfonos por sala para poder usar como karaoke."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Reserva no encontrada.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "La reserva con ID especificado no existe."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado - Token JWT no válido o reserva no pertenece al usuario.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "jwt token not correct"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error inesperado. Inténtalo de nuevo más tarde."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations/new": {
+            "post": {
+                "tags": ["reservations"],
+                "summary": "Crear una nueva reserva",
+                "description": "Permite al cliente autenticado crear una nueva reserva con una sala, horario, fecha y juegos seleccionados.",
+                "operationId": "createNewReservation",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Información necesaria para crear la reserva.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "room_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "week_time_id": {
+                                        "type": "integer",
+                                        "example": 34
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-12-20"
+                                    },
+                                    "game_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "room_id",
+                                    "week_time_id",
+                                    "date",
+                                    "game_ids"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reserva creada exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "comment": {
+                                            "type": "string",
+                                            "example": ""
+                                        },
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 8
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "room_id": {
+                                            "type": "string",
+                                            "example": "2"
+                                        },
+                                        "week_time_id": {
+                                            "type": "string",
+                                            "example": "34"
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-12-20T00:00:00.000Z"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "format": "time",
+                                            "example": "19:00:00"
+                                        },
+                                        "inventory_items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "inventory_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "game_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "game_name": {
+                                                        "type": "string",
+                                                        "example": "Karaoke"
+                                                    },
+                                                    "game_description": {
+                                                        "type": "string",
+                                                        "example": "Contamos con dos microfonos por sala para poder usar como karaoke."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación o conflicto.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "enum": [
+                                                "Ya hay una reserva ese mismo día y a la misma hora en la sala seleccionada.",
+                                                "Faltan datos requeridos para crear la reserva."
+                                            ],
+                                            "example": "Ya hay una reserva ese mismo día y a la misma hora en la sala seleccionada."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado - Token JWT no válido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "jwt token not correct"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error inesperado. Inténtalo de nuevo más tarde."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations-has-inventory/add-item": {
+            "post": {
+                "tags": ["reservations-has-inventory"],
+                "summary": "Añadir un artículo del inventario a una reserva",
+                "description": "Esta operación permite añadir un artículo del inventario a una reserva existente.",
+                "requestBody": {
+                    "description": "Datos necesarios para añadir el artículo a la reserva",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "reservation_id": {
+                                        "type": "string",
+                                        "description": "Identificador de la reserva a la que se añade el artículo",
+                                        "example": 1
+                                    },
+                                    "game_id": {
+                                        "type": "integer",
+                                        "description": "Identificador del artículo de inventario que se va a añadir",
+                                        "example": 4
+                                    }
+                                },
+                                "required": ["reservation_id", "inventory_id"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Artículo añadido a la reserva correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "reservation_id": {
+                                            "type": "string",
+                                            "example": "1",
+                                            "description": "Identificador de la reserva actualizada"
+                                        },
+                                        "inventoryItem": {
+                                            "type": "object",
+                                            "properties": {
+                                                "inventory_id": {
+                                                    "type": "integer",
+                                                    "example": 22,
+                                                    "description": "Identificador del artículo del inventario"
+                                                },
+                                                "game_id": {
+                                                    "type": "integer",
+                                                    "example": 4,
+                                                    "description": "Identificador del juego asociado al artículo"
+                                                },
+                                                "game_name": {
+                                                    "type": "string",
+                                                    "example": "Dixit",
+                                                    "description": "Nombre del juego"
+                                                },
+                                                "game_description": {
+                                                    "type": "string",
+                                                    "example": "Juego de cartas ilustradas donde los jugadores deben adivinar la carta que corresponde a una pista dada.",
+                                                    "description": "Descripción del juego"
+                                                }
+                                            },
+                                            "required": [
+                                                "inventory_id",
+                                                "game_id",
+                                                "game_name",
+                                                "game_description"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Reserva no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "La reserva con ID especificado no existe."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Juego no disponible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No hay disponible este juego para la fecha y hora de la reserva."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        "/reservations-has-inventory/remove-game": {
+            "delete": {
+                "tags": ["reservations-has-inventory"],
+                "summary": "Eliminar un juego de una reserva",
+                "description": "Esta operación permite eliminar un juego específico de una reserva existente.",
+                "requestBody": {
+                    "description": "Identificadores necesarios para eliminar el juego de la reserva",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "reservation_id": {
+                                        "type": "string",
+                                        "description": "Identificador de la reserva de la cual se eliminará el juego",
+                                        "example": "1"
+                                    },
+                                    "game_id": {
+                                        "type": "integer",
+                                        "description": "Identificador del juego que se va a eliminar de la reserva",
+                                        "example": 4
+                                    }
+                                },
+                                "required": ["reservation_id", "game_id"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Juego eliminado de la reserva exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Removed game from reservation successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Juego no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Juego no encontrado en la reserva especificada."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

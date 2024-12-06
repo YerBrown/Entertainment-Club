@@ -55,7 +55,17 @@ async function addInventoryItemToReservation(reservation_id, game_id) {
         reservation_id,
         availableInventoryItem.inventory_id
     );
-    return newInvenotryItemAdded;
+
+    const cleanInventoryItemAdded = {
+        reservation_id,
+        inventoryItem: {
+            inventory_id: availableInventoryItem.inventory_id,
+            game_id: availableInventoryItem.game_id,
+            game_name: availableInventoryItem.game_name,
+            game_description: availableInventoryItem.game_description,
+        },
+    };
+    return cleanInventoryItemAdded;
 }
 
 async function getAvailableInventoryItemByDateAndWeekTime(
@@ -123,6 +133,7 @@ async function remove(reservation_id, inventory_id) {
 }
 
 async function removeGameFromReservations(reservation_id, game_id) {
+    const reservation = await reservationController.getById(reservation_id);
     const allReservationInventory = await getAllInventoryItemsOfReservation(
         reservation_id
     );

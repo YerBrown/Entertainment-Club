@@ -165,7 +165,7 @@ class PASSWORD_NOT_MATCH extends Error {
 class EMAIL_ALREADY_EXISTS extends Error {
     constructor() {
         super("Este correo electrónico ya está registrado");
-        this.status = 400;
+        this.status = 401;
     }
 }
 

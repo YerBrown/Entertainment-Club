@@ -11,11 +11,11 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "http://localhost:3000", // Cambia al dominio de tu API en producción
+                url: "http://localhost:3000",
             },
         ],
     },
-    apis: ["./src/routes/*.js"], // Define dónde están tus rutas documentadas
+    apis: ["./src/routes/*.js"],
 };
 
 export const swaggerDocs = swaggerJsdoc(swaggerOptions);

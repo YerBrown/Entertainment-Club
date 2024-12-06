@@ -11,7 +11,7 @@ router.use(isAuthenticated);
 router.get("/", isAdmin, reservationsApiController.getAll);
 router.get("/free-date", reservationsApiController.getFreeTimesByDate);
 router.get(
-    "/free_items-by-date-time",
+    "/free-items-by-date-time",
     reservationsApiController.getAvailableInventoryItemsByDateTime
 );
 router.get("/my-reservations", reservationsApiController.getMyReservations);

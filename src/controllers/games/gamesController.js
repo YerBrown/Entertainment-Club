@@ -92,7 +92,7 @@ async function update(id, gameData) {
     if (!game) {
         throw new errors.GAME_NOT_FOUND();
     }
-    await game.update(gameData);
+    await Game.update(gameData);
     return game;
 }
 /**
