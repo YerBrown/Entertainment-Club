@@ -9,7 +9,7 @@ Game.create = jest.fn();
 Game.update = jest.fn();
 Game.destroy = jest.fn();
 
-describe("Games API Controller", () => {
+describe("Games Controller", () => {
     beforeEach(() => {
         jest.clearAllMocks(); // Limpia los mocks antes de cada test
     });

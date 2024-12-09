@@ -68,9 +68,7 @@ Entertainment-Club es una API backend diseñada para gestionar las operaciones d
 
 ## 📖 Documentación de la API:
 
-La API está documentada utilizando Swagger. Puedes acceder a la documentación interactiva en:
-
-    docker compose up --build
+La API está documentada utilizando Swagger. Puedes acceder a la documentación interactiva en: http://localhost:3002/api-docs/
 
 ## 📝 Endpoints Principales
 
@@ -82,36 +80,67 @@ La API está documentada utilizando Swagger. Puedes acceder a la documentación 
 ### **Games**
 
 -   `GET /games` - Obtiene todos los juegos disponibles.
--   `POST /games` - Añade un nuevo juego (requiere permisos de administrador).
 -   `GET /games/{id}` - Obtiene un juego por su ID.
+-   `POST /games` - Añade un nuevo juego (requiere permisos de administrador).
 -   `PUT /games/{id}` - Actualiza los datos de un juego (requiere permisos de administrador).
 -   `DELETE /games/{id}` - Elimina un juego por su ID (requiere permisos de administrador).
 
 ### **Reservations**
 
--   `GET /reservations` - Obtiene todas las reservas.
--   `POST /reservations` - Crea una nueva reserva.
--   `GET /reservations/{id}` - Obtiene los detalles de una reserva por su ID.
--   `DELETE /reservations/{id}` - Elimina una reserva.
+-   `GET /reservations` - Obtiene todas las reservas (requiere permisos de administrador).
+-   `GET /reservations/free-date` - Obtiene los horarios libres de una fecha y sala concreta.
+-   `GET /reservations/free-items-by-date-time` - Obtiene el inventario disponible de reserva en un dia y hora concreto.
+-   `GET /reservations/my-reservations` - Obtiene todas las reservas del usuario logeado.
+-   `GET /reservations/{id}` - Obtiene los detalles de una reserva por su ID (requiere permisos de administrador).
+-   `GET /reservations/{id}/full-data` - Obtiene todos los detalles relacionados de una reserva por su ID (requiere permisos de administrador).
+-   `GET /reservations/user/{user_id}` - Obtiene todas las reservas del usuario por su User_ID (requiere permisos de administrador).
+-   `POST /reservations` - Crea una nueva reserva(requiere permisos de administrador).
+-   `POST /reservations/new` - Crea una nueva reserva por un cliente, pasandole toda la información necesaria para la reserva.
+-   `PUT /reservations/{id}` - Actualiza los datos de una reserva (requiere permisos de administrador).
+-   `DELETE /reservations/{id}` - Elimina una reserva (requiere permisos de administrador).
+-   `DELETE /reservations/user/{id}` - Elimina una reserva del propio usuario logeado por su ID.
 
 ### **Rooms**
 
 -   `GET /rooms` - Lista todas las salas disponibles.
 -   `POST /rooms` - Crea una nueva sala (requiere permisos de administrador).
 -   `PUT /rooms/{id}` - Actualiza los datos de una sala (requiere permisos de administrador).
--   `DELETE /rooms/{id}` - Elimina una sala.
+-   `DELETE /rooms/{id}` - Elimina una sala (requiere permisos de administrador).
 
 ### **Inventory**
 
--   `GET /inventory` - Consulta el inventario de juegos disponibles.
--   `POST /inventory` - Agrega un juego al inventario.
--   `DELETE /inventory/{id}` - Elimina un juego del inventario.
+-   `GET /inventory` - Consulta el inventario de juegos disponibles (requiere permisos de administrador).
+-   `GET /inventory/amount-fof-games` - Consulta el inventario de juegos disponibles y las cantidades de cada juego.
+-   `GET /inventory/game/{game_id}` - Te devuelve los articulos del inventario de un juego en concreto.
+-   `GET /inventory/{id}` - Consulta un articulo del inventario de juegos por su id (requiere permisos de administrador).
+-   `POST /inventory` - Agrega un juego al inventario(requiere permisos de administrador).
+-   `PUT /inventory/{id}` - Actualiza un juego del inventario (requiere permisos de administrador).
+-   `DELETE /inventory/{id}` - Elimina un juego del inventario (requiere permisos de administrador).
+
+### **Users**
+
+-   `GET /users` - Lista de todos los usuarios del club (requiere permisos de administrador).
+-   `GET /users/my-profile` - Obtencion de los datos del usuario logeado
+-   `GET /users/{id}`- Obtener un usuario por su id (requiere permisos de administrador).
+-   `POST /users` - Crear un usuario nuevo (requiere permisos de administrador).
+-   `PUT /users/my-profile` - Actualizar los datos del usuario logeado.
+-   `PUT /users/{id}`- Actualizar lo datos de un usario por su id (requiere permisos de administrador).
+-   `DELETE /users/{id}` - Eliminar un usuario por su id (requiere permisos de administrador).
+
+### **Week Times**
+
+-   `GET /week-times` - Lista de todos las horas disponibles de la semana (requiere permisos de administrador).
+-   `GET /week-times/date` - Lista de horas por fecha.
+-   `GET /week-times/{id}`- Obtener un horario de la semana por su id.
+-   `POST /week-times` - Crear un horario de la semana nuevo (requiere permisos de administrador).
+-   `PUT /week-times/{id}`- Actualizar lo datos de un horario de la semana por su id (requiere permisos de administrador).
+-   `DELETE /week-times/{id}` - Eliminar un horario de la semana por su id (requiere permisos de administrador).
 
 ---
 
 ## 🧪 Testing
 
-La aplicación incluye pruebas para asegurar que las funcionalidades principales de la API funcionan correctamente. Estas pruebas están diseñadas para comprobar controladores, validaciones y la interacción con la base de datos.
+La aplicación incluye pruebas para asegurar que las funcionalidades principales de la API funcionan correctamente. Estas pruebas están diseñadas para comprobar controladores y validaciones.
 
 ### **Framework de Testing**
 

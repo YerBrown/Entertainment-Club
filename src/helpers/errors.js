@@ -181,7 +181,18 @@ class INVALID_CREDENTIALS extends Error {
         this.status = 401;
     }
 }
-
+/**
+ * Error cuando los permisos no son suficientes
+ * @extends Error
+ * @typedef {Error} NOT_ALLOWED
+ * @memberof CustomErrors
+ */
+class NOT_ALLOWED extends Error {
+    constructor(message) {
+        super("Not Allowed");
+        this.status = 403;
+    }
+}
 export default {
     handleError,
     GAME_NOT_FOUND,
@@ -197,4 +208,5 @@ export default {
     PASSWORD_NOT_MATCH,
     EMAIL_ALREADY_EXISTS,
     INVALID_CREDENTIALS,
+    NOT_ALLOWED,
 };

@@ -168,6 +168,22 @@ async function createNewReservation(req, res) {
     }
 }
 
+async function removeMyReservation(req, res) {
+    try {
+        const user_id = jwt.getTokenPayload(req).user_id;
+        const id = parseInt(req.params.id);
+        const reservationToRemove = await reservationController.getById(id);
+        if (reservationToRemove && reservationToRemove.user_id === user_id) {
+            const reservation = await reservationController.remove(id);
+            res.json(reservation);
+        } else {
+            throw new errors.NOT_ALLOWED();
+        }
+    } catch (error) {
+        errors.handleError(res, error);
+    }
+}
+
 export default {
     getAll,
     getById,
@@ -180,4 +196,5 @@ export default {
     create,
     update,
     remove,
+    removeMyReservation,
 };
